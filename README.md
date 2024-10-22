@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 Where:
 
@@ -26,3 +27,7 @@ each environment, you can inherit them from `inputs` defined in the root `terrag
 
 A collection of custom terraform modules has been added to the project. The modules are located in the modules folder.
 The current list of modules is:
+=======
+# terragrunt-hcloud-kube
+Terragrunt project for deploying k3s cluster in Hetzner Cloud.
+>>>>>>> 9d9e19382a9c616a7cd658216c9f2086bade107c
