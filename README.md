@@ -63,7 +63,7 @@ Here is the translation of the text into English:
 
 How to Deploy the Infrastructure in this Repository?
 
-Prerequisites
+### Prerequisites
 
 	1.	Install OpenTofu version 1.6.0 or newer and Terragrunt version v0.52.0 or newer.
 	2.	Update the bucket parameter in the root terragrunt.hcl. We use S3 as the Terraform backend for state storage, and S3 bucket names must be globally unique. The name currently in the file is already taken, so you will need to specify your own. Alternatively, you can set the TG_BUCKET_PREFIX environment variable to set a custom prefix.
@@ -71,13 +71,13 @@ Prerequisites
 	4.	Fill in other environment-specific values.
 	5.	Configure your AWS credentials using one of the supported authentication mechanisms.
 
-Deploying a Single Module
+### Deploying a Single Module
 
 	1.	Navigate to the module folder (e.g., cd live/non-prod/eu-central/dev/cluster).
 	2.	Run terragrunt plan to preview the changes you are about to apply.
 	3.	If the plan looks good, run terragrunt apply.
 
-Deploying All Modules in a Region
+### Deploying All Modules in a Region
 
 	1.	Navigate to the region folder (e.g., cd live/non-prod/eu-central).
 	2.	Run terragrunt run-all plan to preview all the changes you are about to apply.
@@ -87,19 +87,21 @@ How is the Code Organized in this Repository?
 
 The code in this repository uses the following folder structure:
 
+```
 account
  └ _global
  └ region
     └ _global
     └ environment
        └ resource
+```
 
 Where:
 
-	•	Account: At the top level are all your Hetzner accounts, such as stage-account, prod-account, mgmt-account, etc. If everything is deployed in one AWS account, there will only be one folder at the root level (e.g., main-account).
-	•	Region: Each account will have one or more Hetzner regions, such as eu-central, us-east, and us-west, where resources are deployed. There may also be a _global folder that defines resources available in all regions.
-	•	Environment: Each region will have one or more environments, such as dev, stage, etc. Typically, an environment corresponds to a single project in the cloud that isolates this environment from everything else in that account. There may also be a _global folder that defines resources available in all environments within that region.
-	•	Resource: In each environment, you deploy all resources for that environment. Each module folder represents a resource in the cluster.
+	* **Account**: At the top level are all your Hetzner accounts, such as stage-account, prod-account, mgmt-account, etc. If everything is deployed in one AWS account, there will only be one folder at the root level (e.g., main-account).
+	* **Region**: Each account will have one or more Hetzner regions, such as eu-central, us-east, and us-west, where resources are deployed. There may also be a _global folder that defines resources available in all regions.
+	*	**Environment**: Each region will have one or more environments, such as dev, stage, etc. Typically, an environment corresponds to a single project in the cloud that isolates this environment from everything else in that account. There may also be a _global folder that defines resources available in all environments within that region.
+	* **Resource**: In each environment, you deploy all resources for that environment. Each module folder represents a resource in the cluster.
 
 Creating and Using Root-Level Variables (Account)
 
