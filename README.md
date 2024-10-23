@@ -23,27 +23,7 @@ brew install hashicorp/tap/terraform  # OR brew install opentofu
 brew install packer
 brew install kubectl
 brew install hcloud
-
-<!-- GETTING STARTED -->
-
-## Getting Started
-
-Follow those simple steps, and your world's cheapest Kubernetes cluster will be up and running.
-
-### ✔️ Prerequisites
-
-First and foremost, you need to have a Hetzner Cloud account. You can sign up for free [here](https://hetzner.com/cloud/).
-
-Then you'll need to have [terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli) or [tofu](https://opentofu.org/docs/intro/install/), [packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli#installing-packer) (for the initial snapshot creation only, no longer needed once that's done), [kubectl](https://kubernetes.io/docs/tasks/tools/) cli and [hcloud](https://github.com/hetznercloud/cli) the Hetzner cli for convenience. The easiest way is to use the [homebrew](https://brew.sh/) package manager to install them (available on Linux, Mac, and Windows Linux Subsystem).
-
-```sh
-brew tap hashicorp/tap
-brew install hashicorp/tap/terraform # OR brew install opentofu
-brew install packer
-brew install kubectl
-brew install hcloud
 ```
-
 ### 💡 [Do not skip] OpenSUSE MicroOS snapshot
 
 1. Create a project in your [Hetzner Cloud Console](https://console.hetzner.cloud/), and go to **Security > API Tokens** of that project to grab the API key, it needs to be Read & Write. Take note of the key! ✅
@@ -59,7 +39,14 @@ brew install hcloud
    hcloud context create <project-name>
    ```
 
-How to Deploy the Infrastructure in this Repository?
+### AWS Authentication Setup
+To configure your AWS credentials, you can use environment variables. Set the following environment variables in your terminal:
+   ```sh
+export AWS_ACCESS_KEY_ID="your_access_key_id"
+export AWS_SECRET_ACCESS_KEY="your_secret_access_key"
+export AWS_SESSION_TOKEN="your_session_token" # if necessary
+
+## How to Deploy the Infrastructure in this Repository?
 
 ### Prerequisites
 
