@@ -18,11 +18,11 @@ Ensure you have the following tools installed on your system:
 You can install the necessary tools via Homebrew:
 
 ```sh
-brew tap hashicorp/tap
-brew install hashicorp/tap/terraform  # OR brew install opentofu
-brew install packer
-brew install kubectl
-brew install hcloud
+  brew tap hashicorp/tap
+  brew install hashicorp/tap/terraform  # OR brew install opentofu
+  brew install packer
+  brew install kubectl
+  brew install hcloud
 ```
 ### 💡 [Do not skip] OpenSUSE MicroOS snapshot
 
@@ -40,11 +40,12 @@ brew install hcloud
    ```
 
 ### AWS Authentication Setup
+
 To configure your AWS credentials, you can use environment variables. Set the following environment variables in your terminal:
-   ```sh
-export AWS_ACCESS_KEY_ID="your_access_key_id"
-export AWS_SECRET_ACCESS_KEY="your_secret_access_key"
-export AWS_SESSION_TOKEN="your_session_token" # if necessary
+  ```sh
+  export AWS_ACCESS_KEY_ID="your_access_key_id"
+  export AWS_SECRET_ACCESS_KEY="your_secret_access_key"
+  export AWS_SESSION_TOKEN="your_session_token" # if necessary
 
 How to Deploy the Infrastructure in this Repository?
 
