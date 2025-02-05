@@ -1,76 +1,103 @@
-# Terragrunt Hetzner Cloud Kubernetes Deployment
 
-## Overview
+# **🌍 Hetzner Cloud Kubernetes Deployment**  
 
-This project provides an automated approach to deploying a Kubernetes cluster on Hetzner Cloud using [Terragrunt](https://terragrunt.gruntwork.io/) and OpenTofu/Terraform. The project includes custom Terraform modules to manage various Kubernetes objects, as well as configuration and environment setup instructions for AWS authentication, Hetzner Cloud API integration, and more.
+## **📌 Overview**  
 
-## Prerequisites
+This project provides an **automated approach** to deploying a **Kubernetes cluster** on **Hetzner Cloud** using **[Terragrunt](https://terragrunt.gruntwork.io/)** and **OpenTofu/Terraform**.  
 
-Ensure you have the following tools installed on your system:
+🔹 **Includes** custom **Terraform modules** for managing various Kubernetes objects.  
+🔹 **Provides** configuration for **AWS authentication**, **Hetzner Cloud API integration**, and more.  
 
-- **Terraform** or **OpenTofu**
-- **Packer** (used for snapshot creation)
-- **kubectl** CLI (for managing your Kubernetes cluster)
-- **hcloud** CLI (for interacting with Hetzner Cloud)
+---
 
-### Installation using Homebrew
+## **⚙️ Prerequisites**  
 
-You can install the necessary tools via Homebrew:
+Make sure you have the following tools installed:  
+
+- ✅ **Terraform** or **OpenTofu**  
+- ✅ **Packer** *(used for snapshot creation)*  
+- ✅ **kubectl** CLI *(for Kubernetes management)*  
+- ✅ **hcloud** CLI *(for Hetzner Cloud interaction)*  
+
+### **📥 Install via Homebrew (MacOS/Linux)**  
 
 ```sh
-  brew tap hashicorp/tap
-  brew install hashicorp/tap/terraform  # OR brew install opentofu
-  brew install packer
-  brew install kubectl
-  brew install hcloud
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform  # OR brew install opentofu
+brew install packer
+brew install kubectl
+brew install hcloud
 ```
-### 💡 [Do not skip] OpenSUSE MicroOS snapshot
 
-1. Create a project in your [Hetzner Cloud Console](https://console.hetzner.cloud/), and go to **Security > API Tokens** of that project to grab the API key, it needs to be Read & Write. Take note of the key! ✅
-2. Generate a passphrase-less ed25519 SSH key pair for your cluster; take note of the respective paths of your private and public keys. Or, see our detailed [SSH options](https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner/blob/master/docs/ssh.md). ✅
-3. Now navigate to where you want to have your project live and execute the following command, which will help you get started with a **new folder** along with the required files, and will propose you to create a needed MicroOS snapshot. ✅
-   ```sh
-   mkdir /path/to/your/new/folder
-   cd /path/to/your/new/folder
-   curl -sL https://raw.githubusercontent.com/kube-hetzner/terraform-hcloud-kube-hetzner/master/packer-template/hcloud-microos-snapshots.pkr.hcl -o hcloud-microos-snapshots.pkr.hcl
-   export HCLOUD_TOKEN="your_hcloud_token"
-   packer init hcloud-microos-snapshots.pkr.hcl
-   packer build hcloud-microos-snapshots.pkr.hcl
-   hcloud context create <project-name>
-   ```
+---
 
-### AWS Authentication Setup
+## **💡 [Must-Read] OpenSUSE MicroOS Snapshot**  
 
-To configure your AWS credentials, you can use environment variables. Set the following environment variables in your terminal:
-  ```sh
-  export AWS_ACCESS_KEY_ID="your_access_key_id"
-  export AWS_SECRET_ACCESS_KEY="your_secret_access_key"
-  export AWS_SESSION_TOKEN="your_session_token" # if necessary
+1️⃣ **Create a project** in your **[Hetzner Cloud Console](https://console.hetzner.cloud/)**.  
+2️⃣ **Generate an SSH key pair** *(ed25519, no passphrase required)*.  
+3️⃣ **Initialize a new project folder** and create a **MicroOS snapshot**:  
 
-How to Deploy the Infrastructure in this Repository?
+```sh
+mkdir /path/to/your/new/folder
+cd /path/to/your/new/folder
+curl -sL https://raw.githubusercontent.com/kube-hetzner/terraform-hcloud-kube-hetzner/master/packer-template/hcloud-microos-snapshots.pkr.hcl -o hcloud-microos-snapshots.pkr.hcl
+export HCLOUD_TOKEN="your_hcloud_token"
+packer init hcloud-microos-snapshots.pkr.hcl
+packer build hcloud-microos-snapshots.pkr.hcl
+hcloud context create <project-name>
+```
 
-### Prerequisites
+---
 
-1. Install OpenTofu version 1.6.0 or newer and Terragrunt version v0.52.0 or newer.
-2. Update the `bucket` parameter in the root `terragrunt.hcl`. We use S3 as the Terraform backend for state storage, and S3 bucket names must be globally unique. The name currently in the file is already taken, so you will need to specify your own. Alternatively, you can set the `TG_BUCKET_PREFIX` environment variable to set a custom prefix.
-3. Create projects in Hetzner Cloud and a zone in Hetzner DNS -> Generate API tokens -> Set environment variables or add token values directly in the `env.hcl` files for each environment.
-4. Fill in other environment-specific values.
-5. Configure your AWS credentials using one of the supported authentication mechanisms.
+## **🔐 AWS Authentication Setup**  
 
-### Deploying a Single Module
+Set your AWS credentials as environment variables:  
 
-1. Navigate to the module folder (e.g., `cd live/non-prod/eu-central/dev/cluster`).
-2. Run `terragrunt plan` to preview the changes you are about to apply.
-3. If the plan looks good, run `terragrunt apply`.
+```sh
+export AWS_ACCESS_KEY_ID="your_access_key_id"
+export AWS_SECRET_ACCESS_KEY="your_secret_access_key"
+export AWS_SESSION_TOKEN="your_session_token"  # if required
+```
 
-### Deploying All Modules in a Region
+---
 
-1. Navigate to the region folder (e.g., `cd live/non-prod/eu-central`).
-2. Run `terragrunt run-all plan` to preview all the changes you are about to apply.
-3. If the plan looks good, run `terragrunt run-all apply`.
-How is the Code Organized in this Repository?
+## **🚀 How to Deploy the Infrastructure**  
 
-The code in this repository uses the following folder structure:
+### **⚠️ Prerequisites**  
+
+1. Install **OpenTofu v1.6.0+** and **Terragrunt v0.52.0+**.  
+2. Update the `bucket` parameter in the **root `terragrunt.hcl`**.  
+   - **S3 is used** for Terraform state storage.  
+   - Ensure your S3 bucket name is **globally unique**.  
+   - Alternatively, set the `TG_BUCKET_PREFIX` environment variable.  
+3. Set up **Hetzner Cloud projects & DNS zones**.  
+4. Generate **Hetzner API tokens** and add them to `env.hcl`.  
+5. Fill in all **environment-specific** values.  
+6. Configure your **AWS credentials**.  
+
+---
+
+## **📦 Deploying Infrastructure**  
+
+### **🚀 Deploying a Single Module**  
+
+```sh
+cd live/non-prod/eu-central/dev/cluster  # Navigate to the module folder
+terragrunt plan   # Preview changes
+terragrunt apply  # Deploy if plan looks good
+```
+
+### **🌎 Deploying All Modules in a Region**  
+
+```sh
+cd live/non-prod/eu-central  # Navigate to the region folder
+terragrunt run-all plan      # Preview all changes
+terragrunt run-all apply     # Deploy all modules
+```
+
+---
+
+## **📂 Repository Structure**  
 
 ```
 account
@@ -81,27 +108,48 @@ account
        └ resource
 ```
 
-Where:
+### **📌 Explanation:**  
 
-* **Account**: At the top level are all your Hetzner accounts, such as `stage-account`, `prod-account`, `mgmt-account`, etc. If everything is deployed in one AWS account, there will only be one folder at the root level (e.g., `main-account`).
+- **Account Level** 🏢  
+  - Each folder represents a **Hetzner Cloud account** (`stage-account`, `prod-account`, `mgmt-account`).  
+  - If all resources are in a single account, there will be only **one folder** (e.g., `main-account`).  
 
-* **Region**: Each account will have one or more Hetzner regions, such as `eu-central`, `us-east`, and `us-west`, where resources are deployed. There may also be a `_global` folder that defines resources available in all regions.
+- **Region Level** 🌎  
+  - Contains **regional deployments** (e.g., `eu-central`, `us-east`).  
+  - The `_global` folder contains **shared resources** across all regions.  
 
-* **Environment**: Each region will have one or more environments, such as `dev`, `stage`, etc. Typically, an environment corresponds to a single project in the cloud that isolates this environment from everything else in that account. There may also be a `_global` folder that defines resources available in all environments within that region.
+- **Environment Level** 🌱  
+  - Defines **project environments** (`dev`, `stage`, `prod`).  
+  - `_global` contains **resources shared** within a region.  
 
-* **Resource**: In each environment, you deploy all resources for that environment. Each module folder represents a resource in the cluster.
+- **Resource Level** ⚙️  
+  - Each **Terraform module** corresponds to a **resource** in the cluster.  
 
-Creating and Using Root-Level Variables (Account)
+---
 
-In situations where you have multiple accounts or regions, you often need to pass common variables into each of your modules. Instead of copying and pasting the same variables into each terragrunt.hcl file in each region and environment, you can inherit them from inputs defined in the root terragrunt.hcl file.
+## **🔧 Using Root-Level Variables (Account-Level Configuration)**  
 
-Custom Terraform Modules for Creating Kubernetes Objects
+When managing multiple **accounts/regions**, avoid duplicating common variables by defining them **in the root `terragrunt.hcl`** file.  
 
-The project includes a collection of custom Terraform modules. The modules are located in the modules folder. The current list of modules includes:
+---
 
-	•	grafana/prometheus
-	•	percona-ps-operator
-	•	percona-ps
-	•	external-dns-hetzner
+## **🛠 Custom Terraform Modules**  
 
-Feel free to use this translation for your documentation!
+This project includes a collection of **custom Terraform modules** for **Kubernetes objects**.  
+
+| 📦 Module Name          | 🔧 Purpose |
+|-------------------------|-----------|
+| `grafana/prometheus`    | **Monitoring & Metrics** 📊 |
+| `percona-ps-operator`  | **Database Operator for Percona** 💾 |
+| `percona-ps`           | **Percona Database Deployment** 🔄 |
+| `external-dns-hetzner` | **Automated DNS Management** 🌐 |
+
+---
+
+## **📜 License & Contribution**  
+
+💡 **This project is open-source. Contributions are welcome!**  
+
+If you have **feature requests**, **improvements**, or **bug fixes**, feel free to **submit a PR**! 🚀  
+
+🔗 **GitHub Repository:** [coldsummerstape](https://github.com/coldsummerstape) 
